@@ -1,2 +1,1 @@
-python spash_parser.py
-
+worker: python spash_parser.py
