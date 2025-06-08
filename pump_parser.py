@@ -9,7 +9,7 @@ TARGET_THREAD_ID = 1745
 SOURCE_CHANNEL_USERNAME = "dt_5p"
 
 # Initial whitelist
-TOKENS = ["$DBR", "$ELDE", "$GEAR", "$TIBBIR", "$WHITE", "$SHM"]
+TOKENS = ["$DBR", "$ELDE", "$GEAR", "$TIBBIR", "$WHITE", "$SHM", "kbbb"]
 
 SEEN_TOKENS = set(token.upper() for token in TOKENS)
 NEW_TOKEN_COUNTER = {}  # нові токени → рахунок форвардів
