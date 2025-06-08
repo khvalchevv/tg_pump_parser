@@ -20,7 +20,7 @@ app = Client("pump_parser", api_id=api_id, api_hash=api_hash, bot_token=BOT_TOKE
 
 @app.on_message(filters.chat(SOURCE_CHANNEL_USERNAME))
 def forward_pumps(client, message):
-    text = message.text or ""
+    text = (message.text or message.caption or "")
 
     tokens_in_msg = [word for word in text.split() if word.startswith("$")]
 
