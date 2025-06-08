@@ -1,1 +1,1 @@
-worker: python spash_parser.py
+worker: python pump_parser.py
