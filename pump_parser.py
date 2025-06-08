@@ -1,5 +1,4 @@
 from pyrogram import Client, filters
-import re
 
 api_id = 22929642
 api_hash = "9e1cb2954a8822c811fa4f0e78a9ffe4"
@@ -9,41 +8,52 @@ TARGET_CHAT_ID = -1002604238211
 TARGET_THREAD_ID = 1745
 SOURCE_CHANNEL_USERNAME = "dt_5p"
 
-TOKENS = ["$dbr", "$elde", "$gear", "$tibbir", "$white", "shm", "anime", "kbbb"]
+# Initial whitelist
+TOKENS = ["$DBR", "$ELDE", "$GEAR", "$TIBBIR", "$WHITE", "$SHM"]
 
-# Створюємо set для унікальних нових токенів:
-seen_tokens = set()
+SEEN_TOKENS = set(token.upper() for token in TOKENS)
+NEW_TOKEN_COUNTER = {}  # нові токени → рахунок форвардів
+
+MAX_NEW_TOKEN_FORWARDS = 5  # після 5 сповіщень токен вважається "запам’ятаним"
 
 app = Client("pump_parser", api_id=api_id, api_hash=api_hash, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.chat(SOURCE_CHANNEL_USERNAME))
 def forward_pumps(client, message):
-    text = (message.text or message.caption or "").lower()
+    text = message.text or ""
 
-    # 1️⃣ Якщо whitelist токен
-    if any(token.lower() in text for token in TOKENS):
-        client.forward_messages(
-            chat_id=TARGET_CHAT_ID,
-            from_chat_id=message.chat.id,
-            message_ids=message.id,
-            message_thread_id=TARGET_THREAD_ID
-        )
-        print(f"[WHITELIST] Forwarded message ID: {message.id}")
+    tokens_in_msg = [word for word in text.split() if word.startswith("$")]
 
-    # 2️⃣ Шукаємо нові токени $XXX
-    matches = re.findall(r'\$[a-zA-Z0-9]+', text)
+    for token in tokens_in_msg:
+        token_upper = token.upper()
 
-    for token in matches:
-        token_lower = token.lower()
-        if token_lower not in seen_tokens and token_lower not in [t.lower() for t in TOKENS]:
-            seen_tokens.add(token_lower)
-
+        if token_upper in SEEN_TOKENS:
+            # Токен вже в whitelist → форвардимо
             client.forward_messages(
                 chat_id=TARGET_CHAT_ID,
                 from_chat_id=message.chat.id,
                 message_ids=message.id,
                 message_thread_id=TARGET_THREAD_ID
             )
-            print(f"[NEW TOKEN] {token} → Forwarded message ID: {message.id}")
+            print(f"✅ Forwarded WHITELIST token: {token_upper}")
+            return
+
+        # Новий токен → лічимо скільки разів вже форвардили
+        count = NEW_TOKEN_COUNTER.get(token_upper, 0)
+
+        if count < MAX_NEW_TOKEN_FORWARDS:
+            client.forward_messages(
+                chat_id=TARGET_CHAT_ID,
+                from_chat_id=message.chat.id,
+                message_ids=message.id,
+                message_thread_id=TARGET_THREAD_ID
+            )
+            NEW_TOKEN_COUNTER[token_upper] = count + 1
+            print(f"🚀 Forwarded NEW token: {token_upper} ({NEW_TOKEN_COUNTER[token_upper]}/{MAX_NEW_TOKEN_FORWARDS})")
+
+            if NEW_TOKEN_COUNTER[token_upper] == MAX_NEW_TOKEN_FORWARDS:
+                SEEN_TOKENS.add(token_upper)
+                print(f"🎉 Token {token_upper} added to memory after {MAX_NEW_TOKEN_FORWARDS} forwards.")
+            return  # після першого знайденого токену досить форвардити це повідомлення
 
 app.run()
