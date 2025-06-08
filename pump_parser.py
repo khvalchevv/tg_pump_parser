@@ -9,7 +9,7 @@ TARGET_CHAT_ID = -1002604238211
 TARGET_THREAD_ID = 1745
 SOURCE_CHANNEL_USERNAME = "dt_5p"
 
-TOKENS = ["$dbr", "$elde", "$gear", "$tibbir", "$white", "shm", "anime"]
+TOKENS = ["$dbr", "$elde", "$gear", "$tibbir", "$white", "shm", "anime", "kbbb"]
 
 # Створюємо set для унікальних нових токенів:
 seen_tokens = set()
