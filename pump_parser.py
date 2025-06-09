@@ -8,7 +8,7 @@ TARGET_CHAT_ID = -1002604238211
 TARGET_THREAD_ID = 1745
 SOURCE_CHANNEL_USERNAME = "dt_5p"
 
-TOKENS = ["$DBR", "$ELDE", "$GEAR", "$TIBBIR", "$WHITE", "$SHM", "kbbb"]
+TOKENS = ["$DBR", "$ELDE", "$GEAR", "$TIBBIR", "$WHITE", "$SHM", "kbbb", "tag"]
 
 SEEN_TOKENS = set(token.upper() for token in TOKENS)
 NEW_TOKEN_COUNTER = {}
