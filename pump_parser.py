@@ -19,6 +19,7 @@ app = Client("pump_parser", api_id=api_id, api_hash=api_hash, bot_token=BOT_TOKE
 
 @app.on_message(filters.chat(SOURCE_CHANNEL_USERNAME))
 def forward_pumps(client, message):
+    # Ось тут головна правка — беремо text або caption!
     text = (message.text or message.caption or "")
     print("📥 New message received!")
     print(f"Chat ID: {message.chat.id}")
