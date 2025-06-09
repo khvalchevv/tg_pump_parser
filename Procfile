@@ -1,1 +1,1 @@
-worker: python pump_parser.py
+start: python pump_parser.py
