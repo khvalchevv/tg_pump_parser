@@ -2,8 +2,8 @@ from telethon import TelegramClient, events
 import asyncio
 import os
 
-api_id = 22929642
-api_hash = "9e1cb2954a8822c811fa4f0e78a9ffe4"
+api_id = 22056618
+api_hash = "db2bf3b16f1788d38091014befe31c0d"
 
 session_name = "user_session"  # ім'я сесії .session-файлу
 
