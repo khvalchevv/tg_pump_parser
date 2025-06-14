@@ -2,7 +2,8 @@ from pyrogram import Client, filters
 
 api_id = 22929642
 api_hash = "9e1cb2954a8822c811fa4f0e78a9ffe4"
-BOT_TOKEN = "7598909276:AAHJ15EyR2390Ke7hVQ4hq94yTiajX3tDGc"
+BOT_TOKEN ="7775639673:AAEErQBi0PWD25B7SxM1xKu3kV2MR37DEeo"
+
 
 TARGET_CHAT_ID = -1002604238211
 TARGET_THREAD_ID = 1745
@@ -26,5 +27,14 @@ async def handler(client, message):
         print(f"✅ Forwarded: {message.text}")
     else:
         print(f"⏭ Skipped: {message.text}")
+        
+        async def check_access():
+    try:
+        chat = await app.get_chat("dt_5p")  # Або ID каналу
+        print(f"💡 Доступ є! Канал: {chat.title} (ID: {chat.id})")
+    except Exception as e:
+        print(f"🔴 Помилка доступу: {e}. Бота треба додати в канал!")
+
+app.run(check_access())
 
 app.run()
