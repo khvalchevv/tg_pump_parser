@@ -9,7 +9,7 @@ TARGET_THREAD_ID = 1745
 SOURCE_CHANNEL_USERNAME = "dt_5p"  # без @
 
 # Випиши свої токени (з $ або без — не важливо)
-TOKENS = ["$dbr", "$elde", "$gear", "$tibbir", "$white", "$shm"]
+TOKENS = ["$dbr", "$elde", "$gear", "$tibbir", "$white", "$shm", "$IRISVIRTUAL", "$AURASOL"]
 
 app = Client("pump_parser", api_id=api_id, api_hash=api_hash, bot_token=BOT_TOKEN)
 
